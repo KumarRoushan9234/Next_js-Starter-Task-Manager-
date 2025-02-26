@@ -1,0 +1,56 @@
+`.taskContainer {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.taskContainer h2 {
+  color: #0070f3;
+}
+
+.taskInput input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.taskList {
+  list-style: none;
+  padding: 0;
+}
+
+.taskItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4f4f4;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.completedTask {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+}
+
+.deleteIcon {
+  color: #ff4d4d;
+  cursor: pointer;
+}
+
+.completeIcon {
+  color: #28a745;
+  cursor: pointer;
+}
