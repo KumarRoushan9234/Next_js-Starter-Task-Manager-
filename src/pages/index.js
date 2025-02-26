@@ -18,10 +18,12 @@
 //   );
 // }
 
-import TaskList from "../components/TaskList"; 
+import TaskList from "../components/TaskList";
+import Navbar from "../components/Navbar"; 
 export default function Home() {
   return (
     <div>
+      <Navbar/>
       <TaskList />
     </div>
   );

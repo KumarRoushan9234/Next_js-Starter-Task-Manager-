@@ -1,59 +1,39 @@
-// src/components/TaskList.js
 import { useState, useEffect } from "react";
-import { AiOutlineDelete, AiOutlineEdit, AiOutlineCheckCircle } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineCheckCircle } from "react-icons/ai";
 import toast, { Toaster } from "react-hot-toast";
 import styles from "../styles/TaskList.module.css";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
 
+  // Load tasks from local storage on app start
   useEffect(() => {
-    fetch("/api/tasks")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setTasks(data);
-        } else {
-          setTasks([]); 
-        }
-      })
-      .catch(() => setTasks([]));
+    const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    setTasks(storedTasks);
   }, []);
-  
 
-  const addTask = async (text) => {
+  // Save tasks to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  const addTask = (text) => {
     if (!text.trim()) return toast.error("Task cannot be empty!");
 
-    const res = await fetch("/api/tasks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text }),
-    });
-
-    const newTask = await res.json();
-    setTasks([...tasks, newTask]);
+    const newTask = { id: Date.now(), text, completed: false };
+    setTasks((prevTasks) => [...prevTasks, newTask]);
     toast.success("Task added!");
   };
 
-  const toggleTaskCompletion = async (id, completed) => {
-    await fetch("/api/tasks", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, completed }),
-    });
-
-    setTasks(tasks.map((task) => (task.id === id ? { ...task, completed } : task)));
+  const toggleTaskCompletion = (id) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task))
+    );
     toast.success("Task updated!");
   };
 
-  const deleteTask = async (id) => {
-    await fetch("/api/tasks", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-
-    setTasks(tasks.filter((task) => task.id !== id));
+  const deleteTask = (id) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     toast.success("Task deleted!");
   };
 
@@ -62,7 +42,7 @@ const TaskList = () => {
       <Toaster />
       <h2>Task Manager ✅</h2>
 
-      {/* Add Task */}
+      {/* Add Task Input */}
       <div className={styles.taskInput}>
         <input
           type="text"
@@ -75,15 +55,10 @@ const TaskList = () => {
       <ul className={styles.taskList}>
         {tasks.map((task) => (
           <li key={task.id} className={task.completed ? styles.completedTask : styles.taskItem}>
-            <span onClick={() => toggleTaskCompletion(task.id, !task.completed)}>
-              {task.text}
-            </span>
+            <span onClick={() => toggleTaskCompletion(task.id)}>{task.text}</span>
             <div className={styles.icons}>
               <AiOutlineDelete onClick={() => deleteTask(task.id)} className={styles.deleteIcon} />
-              <AiOutlineCheckCircle
-                onClick={() => toggleTaskCompletion(task.id, !task.completed)}
-                className={styles.completeIcon}
-              />
+              <AiOutlineCheckCircle onClick={() => toggleTaskCompletion(task.id)} className={styles.completeIcon} />
             </div>
           </li>
         ))}
