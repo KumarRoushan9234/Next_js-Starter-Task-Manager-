@@ -1,14 +1,16 @@
+/* src/styles/Navbar.module.css */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #0070f3;
+  background: #222; /* Dark color */
   padding: 10px 20px;
   color: white;
 }
 
 .navbar h1 {
   margin: 0;
+  font-size: 22px;
 }
 
 .links a {

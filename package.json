@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "dotenv": "^16.4.7",
+    "framer-motion": "^12.4.7",
     "mongoose": "^8.10.2",
     "next": "^15.1.7",
     "react": "^19.0.0",

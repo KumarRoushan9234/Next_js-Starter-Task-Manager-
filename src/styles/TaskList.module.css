@@ -54,3 +54,28 @@
   color: #28a745;
   cursor: pointer;
 }
+
+.filters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.filters button {
+  margin: 0 5px;
+  padding: 8px 15px;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filters button:hover {
+  background: #666;
+}
+
+.activeFilter {
+  background: #0070f3;
+}
